@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>首頁-紙飛機線上旅遊訂房</title>
+	  
+	<!-- Bootstrap core CSS -->
+    <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+	
+	<script src="statics/js/jquery-3.4.1.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<style>
+	body{
+ 	  margin-bottom: 120px;
+ 	  font-family:"Microsoft JhengHei"!important;
+	}	
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+      
+      .btn-outline-primary.focus,.btn-outline-primary:focus{box-shadow:0 0 0 .2rem rgba(0,123,255,.5)}
+	  .btn-outline-primary:hover{color:#fff!important;background-color:#cab57f!important;border-color:#cab57f!important}
+    
+ .button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #cab57f;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+    }
+	
+	
+	</style>
+</head>
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal">NCU_MIS-SA</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="memberList.html">會員管理模組</a>
+        <a class="p-2 text-dark" href="hotelList.html">店家管理模組</a>
+        <a class="p-2 text-dark" href="roomList.html">房間管理模組</a>
+        <a class="p-2 text-dark" href="product.html">旅館列表</a>
+        <a class="p-2 text-dark" href="order.html">訂單列表</a>
+        <a class="p-2 text-dark" href="login.html" id="member_login">會員登入/註冊</a>
+        <a class="p-2 text-dark" href="javascript:member_logout(); " id="member_logout">會員登出</a>
+
+      </nav>
+      <a class="btn btn-outline-primary" href="trackingList.html" style="color: #cab57f;border-color: #cab57f;">追蹤清單</a>
+    </div>
+
+	<div class="container " style="margin:auto;margin-top:100px;">
+
+	  <button class="button" id="btn_search_hotel" type="button" onclick="location.href='product.html'" 
+	    style="vertical-align:middle;margin-left: 40%;"><span>瀏覽旅館</span></button>
+	</div>
+
+	<script>
+		 $(document).ready(function () {
+			 //確認是否已登入
+			$("#member_logout").hide();
+			checkCookie();
+	            
+			function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
+                }
+                return "";
+              }
+            function checkCookie() {
+                var memberEmail = getCookie("memberEmail");
+				var hotelEmail = getCookie("hotelEmail");
+				 //alert(memberEmail);
+				 //alert(hotelEmail);
+                if (memberEmail != ""){
+					$("#member_logout").show();
+					$("#member_login").hide();
+				} 
+				if (hotelEmail != ""){
+					$("#member_logout").show();
+					$("#member_login").hide();
+				} 
+                    
+            }
+		 });
+		 
+		function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
+            }
+            return "";
+          }
+		 
+		 function member_logout(action){
+             var memberEmail = getCookie("memberEmail");
+			 var hotelEmail = getCookie("hotelEmail");
+             if (memberEmail != ""){
+            	 $.ajax({
+                     type: "GET",
+                     url: "api/login.do",
+						data: "user=member",
+                     crossDomain: true,
+                     cache: false,
+                     dataType: "string",
+                     timeout: 5000,
+                     success: function (response) {
+                    	 alert("登出成功！");
+                     	return;
+                     },
+                     error: function () {
+							return ;	
+						}
+             });
+             window.location.reload();
+			 } 
+			 if (hotelEmail != ""){
+				 $.ajax({
+                     type: "GET",
+                     url: "api/login.do",
+						data: "user=hotel",
+                     crossDomain: true,
+                     cache: false,
+                     dataType: "string",
+                     timeout: 5000,
+                     success: function (response) {
+                    	 alert("登出成功！");
+                     	return;
+                     },
+                     error: function () {
+							return ;	
+						}
+             });
+             window.location.reload();
+			 } 
+		 }
+		 /*
+         //會員登出
+		function memberLogout(action){
+				$.ajax({
+                        type: "GET",
+                        url: "api/login.do",
+						data: "user=member",
+                        crossDomain: true,
+                        cache: false,
+                        dataType: "string",
+                        timeout: 5000,
+                        success: function (response) {
+                        	return;
+                        },
+                        error: function () {
+							return ;	
+						}
+                });
+                window.location.reload();
+		}
+		//會員登出
+		function hotelLogout(action){
+				$.ajax({
+                        type: "GET",
+                        url: "api/login.do",
+						data: "user=hotel",
+                        crossDomain: true,
+                        cache: false,
+                        dataType: "string",
+                        timeout: 5000,
+                        success: function (response) {
+                        	return;
+                        },
+                        error: function () {
+							return ;	
+						}
+                });
+                window.location.reload();
+		}
+		*/
+	</script>
+</body>
+</html>

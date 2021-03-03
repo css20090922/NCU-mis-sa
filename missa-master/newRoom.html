@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>新增房間資料</title>
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+            <h1></h1>
+        </div>
+        
+        <div id="content">
+            <h2>新增房間資料</h2>
+            <a href="roomList.html">房間清單</a>
+            
+            <div id="flashMessage" class="message" style="display: none;"></div>
+
+            <form id="form" accept-charset="utf-8">
+                <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+                <div class="input text required">
+                    <label for="hotel_id">店家編號</label>
+                    <input maxlength="11" type="text" id="hotel_id" required="required" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                </div>
+                <div class="input text required">
+                    <label for="room_name">房間名稱</label>
+                    <input maxlength="30" type="text" id="room_name" required="required">
+                </div>
+                <div class="input text required">
+                    <label for="room_price">價格</label>
+                    <input maxlength="30" type="text" id="room_price" required="required" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                </div>
+                <div class="input text required">
+                    <label for="room_img">圖片連結</label>
+                    <input maxlength="255" type="text" id="room_img" required="required">
+                </div>
+                <div class="submit"><input type="button" value="確認" id="submit"></div>
+            </form>
+            
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    // 處理表單點擊事件
+                    var $form = $('#submit');
+                    $form.click(function() {
+                    	submit();
+                    });
+
+                    function submit() {
+                    	
+                    	var hotel_id = $('#hotel_id').val();
+                        var name = $('#room_name').val();
+                        var price = $('#room_price').val();
+                        var img = $('#room_img').val();
+						
+                        if(hotel_id === ""){
+                        	alert("請輸入店家編號！");
+                        }
+                        else if(name ===""){
+                        	alert("請輸入房間名稱！");
+                        }
+                        else if(price ===""){
+                        	alert("請輸入房間價格！");
+                        }
+                        else if(img ===""){
+                        	alert("請輸入圖片連結！");
+                        }
+                        else{
+                        	// 將資料組成JSON格式
+                            var data_object = {
+                            	"hotel_id": hotel_id,	
+                            	"room_name": name,
+                                "room_price": price,
+                                "room_image": img
+                            };
+
+                            // 將JSON格式轉換成字串
+                            var data_string = JSON.stringify(data_object);
+
+                            // 發出POST的AJAX請求
+                            $.ajax({
+                                type: "POST",
+                                url: "api/room.do",
+                                data: data_string,
+                                crossDomain: true,
+                                cache: false,
+                                dataType: 'json',
+                                timeout: 5000,
+                                success: function (response) {
+                                	$('#flashMessage').html(response.message);
+                                    $('#flashMessage').show();
+                                    if(response.status == 200){
+                                        updateSQLTable(response.response);
+                                    }
+                                },
+                                error: function () {
+                                    alert("無法連線到伺服器！");
+                                }
+                            });
+                        }
+                    }
+
+                    function updateSQLTable(data) {
+                        $("#sql_log > tbody").empty();
+                        var time = (data.time / 1000000).toFixed(2);
+                        var table_html = "";
+
+                        table_html += '<tr>';
+                        table_html += '<td>' + '1' + '</td>';
+                        table_html += '<td>' + data.sql + '</td>';
+                        table_html += '<td style="text-align: right">' + '0' + '</td>';
+                        table_html += '<td style="text-align: right">' + data.row + '</td>';
+                        table_html += '<td style="text-align: right">' + data.row + '</td>';
+                        table_html += '<td style="text-align: right">' + time + '</td>';
+                        table_html += '</tr>';
+                        $("#sql_log > tbody").append(table_html);
+                        $("#sql_summary").html("(default) " + data.row + " queries took " + time + " ms");
+                    }
+                });
+            </script>
+
+        </div>
+        
+        <div id="footer">
+            <p>SQLTable</p>
+        </div>
+    </div>
+
+    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
+        <caption id="sql_summary">(default) 0 queries took 0 ms</caption>
+        <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Query</th>
+                <th>Error</th>
+                <th>Affected</th>
+                <th>Num. rows</th>
+                <th>Took (ms)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+	<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>註册店家</title>
+    
+    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+                <h1><a href="index.html">返回首頁</a></h1>
+        </div>
+        
+        <div id="content">
+            <h2>註册店家資料</h2>
+            
+            
+            <div id="flashMessage" class="message" style="display: none;"></div>
+
+            <form id="form" accept-charset="utf-8">
+                <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+                <div class="input text required">
+                        <label for="hotel_name" >名稱</label>
+                        <input name="hotelname" maxlength="30" type="text" id="hotel_name" placeholder="Hotel name" required="required">
+                </div>
+                <div class="input email required">
+                    <label for="hotel_email">電郵</label>
+                    <input name="email" maxlength="50" type="email" id="hotel_email" required="required">
+                </div>
+                <div class="input password required">
+                    <label for="hotel_password">密碼</label>
+                    <input name="password" maxlength="30" type="password" id="hotel_password" required="required">
+                </div>
+                <div class="input image required">
+                        <label for="hotel_image">圖片連結</label>
+                        <input name="image" type="text" id="hotel_image" required="required">    
+                </div>
+                <div class="input description required">
+                    <label for="hotel_description">敘述(200字內)</label>
+                    <textarea  name="description" maxlength="200" type="text" id="hotel_description" required="required" style="height: 50px;">
+                    </textarea>
+                </div>
+                <div class="input phone required">
+                    <label for="hotel_phone">電話(國碼+電話號碼)</label>
+                    <input name="phone" maxlength="15" type="text" id="hotel_phone" required="required" >    
+                </div>
+                <div class="input country required">
+                    <label for="hotel_country">國家</label>
+                    <select required="required" id="hotel_country">
+                        <option value="nodata" selected="selected">請選擇</option>
+                    </select>
+                </div>
+                <div class="input city required">
+                    <label for="hotel_city">地區</label>
+                    <select required="required" id="hotel_city">
+                        <option value="nodata" selected = "selected">請選擇</option>
+                    </select>
+                </div>
+                <div class="input address required">
+                    <label for="hotel_address">住址</label>
+                    <input name="hotel_address" maxlength="100" type="text" id="hotel_address" required="required">
+                </div>
+                <div class="submit"><input type="button" value="註冊" id="submit"></div>
+                
+            </form>
+            
+            <script type="text/javascript">
+                $(document).ready(function() {
+                	var countrycity;
+                   
+
+                    // 發出GET的AJAX請求
+                    $.ajax({
+                            type: "GET",
+                            url: "api/hotel.do",
+                            data:"id=0",
+                            crossDomain: true,
+                            cache: false,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function (response) {
+                                console.log(response); 
+                                setcountry(response);
+                                countrycity = response;
+                                setcity($country.val());
+                            },
+                            error: function () {
+                                alert("資料載入失敗");
+                            }
+                    });
+                    /**將國家的資料取出，放入select內*/
+                    var $country = $("#hotel_country");
+                   
+                    function setcountry(data){
+                        $country.empty();
+                        $.each(data, function(index, value) {
+                            var countryobj = JSON.parse(value);
+                            if(index==0){
+                                $country.append(new Option(countryobj["countryname"],countryobj["countryname"],true));     
+                            }else{
+                                $country.append(new Option(countryobj["countryname"],countryobj["countryname"],false));
+                            }   
+                        })
+                    }
+                    
+                    
+                     /**將城市的資料取出，放入select內*/
+                    var $city = $("#hotel_city");
+                        $country.change(function(){
+                        setcity($country.val());
+                    });
+                    function setcity(country){
+                           $city.empty();
+                           $.each(countrycity, function(index, value) {
+                                var countryobj = JSON.parse(value);
+                                if(countryobj["countryname"]==country){
+                                    for(var city in countryobj["city"])
+                                    if(index==0){
+                                        $city.append(new Option(countryobj["city"][city],countryobj["city"][city],true));
+                                    }else{
+                                        $city.append(new Option(countryobj["city"][city],countryobj["city"][city],false));    
+                                    }   
+                                }
+                            })
+                       }
+                    
+                    // 處理表單點擊事件
+                    var $form = $('#submit');
+                    $form.click(function() {
+                        submit();
+                    });
+
+                    function submit() {
+                        var name = $('#hotel_name').val();
+                        var email = $('#hotel_email').val();
+                        var password = $('#hotel_password').val();
+                        var image =  $('#hotel_image').val();
+                        var description = $('#hotel_description').val();
+                        var phone =  $('#hotel_phone').val();
+                        var country =  $('#hotel_country').val();
+                        var city =  $('#hotel_city').val();
+                        var address =  $('#hotel_address').val();
+
+                        var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+                        var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+                        var phone_rule = /^\d+$/;
+
+
+                        if (!email_rule.test(email)) {
+                            alert("Email格式不符！");
+                        }
+                        else if(!password_rule.test(password)) {
+                            alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
+                        }else if(!phone_rule.test(phone)){
+                            alert("電話格式錯誤")
+                        }else{
+                            // 將資料組成JSON格式
+                            var data_object = {
+                                "name": name,
+                                "email": email,
+                                "password": password,
+                                "image" : image,
+                                "description":description,
+                                "phone" : phone,
+                                "country" : country,
+                                "city" : city,
+                                "address" : address
+                            };
+
+                            // 將JSON格式轉換成字串
+                            var data_string = JSON.stringify(data_object);
+
+                            // 發出POST的AJAX請求
+                            $.ajax({
+                                    type: "POST",
+                                    url: "api/hotel.do",
+                                    data: data_string,
+                                    crossDomain: true,
+                                    cache: false,
+                                    dataType: 'json',
+                                    timeout: 5000,
+                                    success: function (response) {
+                                        $('#flashMessage').html(response.message);
+                                        $('#flashMessage').show();
+                                    },
+                                    error: function () {
+                                        alert("無法連線到伺服器！");
+                                    }
+                            });
+                        }
+                    }
+                });
+            </script>
+
+        </div>
+        
+        <div id="footer">
+            
+        </div>
+    </div>
+
+
+</body>
+
+</html>

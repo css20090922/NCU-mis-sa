@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Jekyll v3.8.5">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>旅館詳細資訊 ｜ NCU MIS SA</title>
+
+  <!-- Bootstrap core CSS -->
+
+  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+
+  <style>
+  	body{
+ 	margin-bottom: 120px;
+ 	font-family:"Microsoft JhengHei"!important;
+	}	
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    .tracked_button{
+      background-color:#f1eada!important;
+	  color:#4e0c0c!important;
+    
+    }
+    .btn-outline-primary.focus,.btn-outline-primary:focus{box-shadow:0 0 0 .2rem rgba(0,123,255,.5)}
+    .btn-outline-primary:hover{color:#fff!important;background-color:#cab57f!important;border-color:#cab57f!important}
+    
+    }
+  </style>
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
+  <link href="statics/css/product.css" rel="stylesheet">
+  <link href="statics/css/productDetail.css" rel="stylesheet">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="statics/js/jquery-3.4.1.min.js"></script>
+
+</head>
+<body>
+
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal">NCU_MIS-SA</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="index.html">首頁</a>
+        <a class="p-2 text-dark" href="memberList.html">會員管理模組</a>
+        <a class="p-2 text-dark" href="hotelList.html">店家管理模組</a>
+        <a class="p-2 text-dark" href="roomList.html">房間管理模組</a>
+        <a class="p-2 text-dark" href="product.html">旅館列表</a>
+        <a class="p-2 text-dark" href="order.html">訂單列表</a>
+        <a class="p-2 text-dark" href="login.html" id="member_login">會員登入/註冊</a>
+        <a class="p-2 text-dark" href="javascript:member_logout(); " id="member_logout">會員登出</a>
+      </nav>
+      <a class="btn btn-outline-primary" role="button" href="trackingList.html" style="color: #cab57f;border-color: #cab57f;">追蹤清單</a>
+    </div>
+
+<div id="hotelContainer" class="container">
+    <div  class="hotelInfo shadow-sm" style="box-shadow:0 .125rem .25rem rgba(0,0,0,.255)!important;">
+   	  <img src="data:image/png;base64,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" 
+   	   class="hotel_image" alt="圖片失效" title="旅館預覽圖" align="left"/>
+   	  
+      <div class="hotel_display">
+        <div id="hotel_name">
+        {{hotel_name}}
+        </div>
+        <div id="hotel_description">
+          {{hotel_description}}
+        </div>
+        <div id="hotel_contact">
+        <font size='3'>聯絡資訊</font><br>
+        <span id="hotel_address"></span>
+        <br>
+        <sapn id="hotel_phone"></span>
+        </div>
+      </div>
+
+    </div>
+</div>
+
+<div id="roomListTitle" class="container">
+    	<div class="TextandDate">
+    		<div id="text">
+          		<h2>房間列表</h2>
+        	</div>
+        <div id="date">
+        
+         	 入住日期：
+          	<input type="date" id="checkin_date" name="checkin_date">
+         	 ~  退房日期：
+          	<input type="date" id="checkout_date" name="checkout_date">
+        </div>
+      	</div>
+      	</div>
+    <div id="roomList" class="container">
+
+    </div>
+
+
+<script>
+    //取得網址參數
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var id = url.searchParams.get("id");
+    
+
+	var sql_num = 0;
+	var dropdownlist="";
+	
+	//取得個別旅館資料
+	  function getHotelData() {
+	  $.ajax({
+          type: "GET",
+          url: "api/hotel.do",
+          data: "id=" + id,
+          crossDomain: true,
+          cache: false,
+          dataType: 'json',
+          timeout: 5000,
+          success: function (response) {
+              if(response.status == 200){
+            	  updateHTML(response.response.data);            	  
+              }
+          },
+          error: function () {
+              alert("無法連線到伺服器！");
+          }
+    });
+  }
+	
+	  //更新HTML內容
+	  function updateHTML(data) {
+		  var image_url = data[0]["image"];
+		  $(".hotel_image").attr('src',data[0]["image"]);
+		  $("#hotel_name").html(data[0]['name']);
+		  $("#hotel_description").html(data[0]['description']);
+		  var hotel_address_string = " 地址： " + data[0]["countryname"] + data[0]["cityname"] + data[0]["address"];
+		  var hotel_phone_string = "電話：" + data[0]["phone"];
+		  //console.log(hotel_address_string);
+		  //;pconsole.log(hotel_phone_string);
+		  $("#hotel_address").html(hotel_address_string);
+		  $("#hotel_phone").html(hotel_phone_string);
+		  
+		  console.log(data);
+		  var room_html = '';
+		  
+		  $.each(data[0]['room'], function (index, value){
+			  room_html += '<div class="panel-group" id="panel_' + value["room_id"] +'" >';
+			  room_html += '<div class="panel-heading">';
+			  room_html += '<label id="room_' + value["room_id"] + '">' + value["room_name"] + '</label></div>';
+			  room_html += '<div class="panel-body">';
+			  room_html += '<div class="room_image" id="room_image_' + value["room_id"] +'">';
+			  room_html += '<img src="' + value["room_img"] + '" alt="圖片失效" title="房間預覽圖"/></div>';
+			  room_html += '<div class="room_display"><div class="float-right">';
+			  room_html += '<button id="add_trackingList_' + value["room_id"] + '"  name="add_trackingList" type="button" class=" btn btn-lg btn-block trackingButton">☆ 加入追蹤清單</button></div>';
+			  room_html += '<div class="room_priceInfo">';
+			  room_html += '<label class="room_price" id="room_price_' + value["room_id"] +'">NTD$ ' + value["room_price"] + '</label></div>';
+			  room_html += '<div class="room_checkInfo"><div style="display:inline;margin-left:150px;margin-right:10px;">';
+			  room_html += '<label class="room_amount" style="margin-top:10px;">客房數</label></div>';
+			  room_html += '<div id="dropdownlist_room_amount_' + value["room_id"] + '" style="display:inline;margin-left: 10px;float: left;"></div></div>';
+			  room_html += '<select id="amount_' + value["room_id"] + '" class="form-control" style="width:60px;" onfocus="this.size=3;" onblur="this.size=1;" onchange="this.size=1; this.blur();" >';
+			  room_html += '<option value="1">1</option>';
+			  room_html += '<option value="2">2</option>';
+			  room_html += '<option value="3">3</option>';
+			  room_html += '<option value="4">4</option>';
+			  room_html += '<option value="5">5</option>';
+			  room_html += '<option value="6">6</option>';
+			  room_html += '<option value="7">7</option>';
+			  room_html += '<option value="8">8</option>';
+			  room_html += '<option value="9">9</option>';
+			  room_html += '<option value="10">10</option></select>';			  
+			  room_html += '<div style="display:inline">';
+			  room_html += '<input type="submit" value="結帳" style="margin-top: -33px;" class="check_button btn btn-lg btn-block" id="' + value["room_id"] + '">';
+			  room_html += '</div></div></div></div>'; 
+	        
+        	})
+        	$("#roomList").append(room_html);
+		    $(".check_button").click(function(event){
+		    	if(login_status===1){
+				    checkout(this.id);
+		    	}
+		    	else if(login_status===0){
+		    		alert("請先登入會員！");
+		    	}
+		    	else if(login_status===2){
+		    		alert("您目前為店家身分，無法訂購房間。");
+		    	}
+		    
+			});
+		    
+		    $(".trackingButton").click(function () {
+		    		var action = (this.id).split('_')[0];
+		    		var destination = (this.id).split('_')[1];
+		    		var id = (this.id).split('_')[2];
+		    		//addRoomToTrackingList(id);
+		    		//alert(id);
+		    		trackingListButton(id);
+		        });
+	
+        	checkIfExistInTrackingList();
+        }
+	  
+	  function checkout(room_id){
+		 
+		      var hotel_id = id;
+		  	  var hotel_name = $("#hotel_name").html();
+		  
+        	  var name = "#room_"+room_id;
+              var room_name = $(name).html();
+              
+              var amount = "#amount_"+room_id;
+              var room_amount = $(amount).val();
+              
+              var price = "#room_price_"+room_id;
+              var room_price = $(price).html();
+              
+              var image = "#room_image_"+room_id;
+              var room_image = $(image).children("img").attr("src");
+              console.log(room_image);
+              
+              var checkin_date = $("#checkin_date").val();
+              var checkout_date = $("#checkout_date").val();
+              
+              var member_email = getCookie("memberEmail");
+              console.log(member_email);
+
+              if (room_amount==="") {
+                  alert("客房數格式不符");
+              }
+              else if(room_amount===0){
+            	  alert("客房數不可為0!");
+              }
+              else if((new Date(checkin_date).getTime() > new Date(checkout_date).getTime())){
+            	  alert("入住日期不可於退住日期之後！");
+              }
+              else {
+                  // 將資料組成JSON格式
+                  var data_object = {
+                      "hotel_id": hotel_id,
+                      "hotel_name": hotel_name,
+                      "room_id": room_id,
+                      "room_name": room_name,
+                      "room_amount": room_amount,
+                      "room_price": room_price,
+                      "room_image": room_image,
+                      "checkin_date": checkin_date,
+                      "checkout_date": checkout_date,
+                      "member_email": member_email
+                  };
+
+                  // 將JSON格式轉換成字串
+                  var data_string = JSON.stringify(data_object);
+                  console.log(data_string);
+                
+
+                  // 發出POST的AJAX請求
+                  $.ajax({
+                          type: "POST",
+                          url: "api/productDetail.do",
+                          data: data_string,
+                          crossDomain: true,
+                          cache: false,
+                          dataType: 'json',
+                          timeout: 5000,
+                          success: function (response) {
+                             
+                              if(response.status == 200){
+                            	  alert("success");
+                            	  window.location = "checkout_1.html";
+                              }
+                          },
+                          error: function () {
+                              alert("無法連線到伺服器！");
+                          }
+                  });
+              }
+	  }
+	  
+	  function setDate(){
+		  var d = new Date();
+		  var month = d.getMonth()+1;
+		  var day = d.getDate();
+		  
+		  var next_d = new Date();
+		  next_d.setDate(next_d.getDate()+1);
+		    
+		  var current_date = d.getFullYear() + '-' +
+		      ((''+month).length<2 ? '0' : '') + month + '-' +
+		      ((''+day).length<2 ? '0' : '') + day;		  
+		  var next_date = next_d.getFullYear() + '-' + 
+		  ("0" + (next_d.getMonth() + 1)).slice(-2) + '-' + 
+		  ((""+next_d.getDate()).length<2 ? '0' : '') + next_d.getDate();
+
+
+		  $("#checkin_date").attr("min",current_date);
+		  $("#checkin_date").attr("value",current_date);
+		  $("#checkout_date").attr("min",next_date);
+		  $("#checkout_date").attr("value",next_date);
+	  }
+	  
+	  /*********確認登入狀態**********/
+	  var login_status = 0;
+	  function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i].trim();
+          if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
+        }
+        return "";
+      }
+            
+	  function checkCookie() {
+        var memberEmail = getCookie("memberEmail");
+		var hotelEmail = getCookie("hotelEmail");
+		//alert(memberEmail);
+		//alert(hotelEmail);
+        if (memberEmail != ""){
+			$("#member_logout").show();
+			$("#member_login").hide();
+			login_status = 1;
+		} 
+        else{
+        	if(hotelEmail != ""){
+        	login_status = 2;
+        	}
+        	else{
+        	    login_status = 0;
+        	}
+        }
+		if (hotelEmail != ""){
+			$("#member_logout").show();
+			$("#member_login").hide();
+		} 
+
+                    
+      }
+	  
+	  
+	  
+	  /************追蹤清單相關function**************/
+	  var client_track_obj  = getTrackDataFromClient();
+	  
+	  function getTrackDataFromClient() {
+	    let track = JSON.parse(localStorage.getItem("client_track_obj"));
+	    track = !track ? new Array() : track;
+	    return track;
+	    }
+	    
+	  function trackingListButton(room_id){		
+		  //alert(room_id);
+		  //alert(client_track_obj.toString());
+		  if (client_track_obj.indexOf(room_id)==-1) {
+			  //alert("add");
+		    	addRoomToTrackingList(room_id);		    	
+		  }
+		  else{
+			  //alert("delete");
+			  deleteRoomToTrackingList(room_id);
+		  }
+		  updateTrackDataToClent();
+		  checkIfExistInTrackingList();
+	  }
+	  
+	  function addRoomToTrackingList(id) {
+		  //alert("add function");
+	    	client_track_obj.push(id);
+	  }
+	  function deleteRoomToTrackingList(id){
+		  //alert("delete function");
+		  client_track_obj.splice( client_track_obj.indexOf(id), 1 );
+	  }
+	  
+	  function updateTrackDataToClent() {
+		  //alert(client_track_obj.toString());
+	    	localStorage.setItem("client_track_obj", JSON.stringify(client_track_obj));
+
+	    }
+	  
+	  function checkIfExistInTrackingList() {
+	    $(".trackingButton").each(function (){
+	    	var action = (this.id).split('_')[0];
+	    	var destination = (this.id).split('_')[1];
+	    	var id = (this.id).split('_')[2];
+	    	if (client_track_obj.includes(id)) {
+	    		setButtonState(this.id ,false);
+	    	}
+	    	else {
+	    		setButtonState(this.id, true);
+	    	}
+	    		
+	       });
+	  }
+	  function setButtonState(id ,action) {
+		var btn_id = "#" + id;
+	    if (!action) {	    	
+	    	$(btn_id).html('★ 取消追蹤');
+	    }
+	    else {
+	    	$(btn_id).html('☆ 加入追蹤清單');
+	    }
+	  }
+		 function member_logout(action){
+			 alert("inin");
+             var memberEmail = getCookie("memberEmail");
+			 var hotelEmail = getCookie("hotelEmail");
+			 alert(memberEmail);
+			 alert(hotelEmail);
+             if (memberEmail != ""){
+            	 $.ajax({
+                     type: "GET",
+                     url: "api/login.do",
+						data: "user=member",
+                     crossDomain: true,
+                     cache: false,
+                     dataType: "string",
+                     timeout: 5000,
+                     success: function (response) {
+                    	 alert("登出成功！");
+                     	return;
+                     },
+                     error: function () {
+							return ;	
+						}
+             });
+             window.location.reload();
+			 } 
+			 if (hotelEmail != ""){
+				 $.ajax({
+                     type: "GET",
+                     url: "api/login.do",
+						data: "user=hotel",
+                     crossDomain: true,
+                     cache: false,
+                     dataType: "string",
+                     timeout: 5000,
+                     success: function (response) {
+                    	 alert("登出成功！");
+                     	return;
+                     },
+                     error: function () {
+							return ;	
+						}
+             });
+             window.location.reload();
+			 } 
+		 }
+
+	$(document).ready(function () { 
+		$("#member_logout").hide();
+		getHotelData();
+		setDate();
+		checkCookie();
+
+	});
+	
+    
+
+	/*
+	  function getRoomData(){
+		  var request = {'type':'hotel','id':id};
+		  var data_json = {};
+		  data_json["type"] = "hotel";
+		  data_json["id"] = id;
+		  var data_string = JSON.stringify(data_json);
+		  $.ajax({
+	          type: "GET",
+	          url: "api/room.do",
+	          data: data_string,
+	          crossDomain: true,
+	          cache: false,
+	          dataType: 'json',
+	          timeout: 5000,
+	          success: function (response) {
+	              if(response.status == 200){
+	            	  var room_panel = '';
+	                	
+	                	$.each(response.response.data, function (){
+	                		room_panel += addRoomHTML(this);
+	                	})
+	                	console.log(room_panel);
+	                	//$("#product_panel").append(product_panel);
+	            	  //updateHotelHTML(response.response.data);
+	              }
+	          },
+	          error: function () {
+	              alert("無法連線到伺服器！");
+	          }
+	    });
+		  
+	  }
+	/*
+	//取得客房數的option參數
+  	function generateDropDownList(id){
+  		alert("generatedropdownlist");
+  		
+  		dropdownlist+="<select id='amount_" + id + "' class='form-control'onfocus='this.size=3;' onblur='this.size=1;' onchange='this.size=1; this.blur();' >"
+		for(i=1;i<=20;i++){
+			dropdownlist+="<option value='"+i+"'>"+i+"</option>";
+		}
+		dropdownlist+="</select>"
+		alert(dropdownlist);
+		var ddlname = "#dropdownlist_room_amount_"+id;
+		alert(ddlname);
+		$(ddlname).html(dropdownlist);
+	}
+
+    //添加客房數的option參數
+	function addDropDownList(){
+		//alert("adddropdownlist");
+		
+		
+	}
+    */
+</script>
+
+
+
+  <footer class="text-muted">
+    <div class="container">
+      <p class="float-right">
+        <a href="#">Back to top</a>
+      </p>
+      <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+      <p>New to Bootstrap? <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a
+          href="/docs/4.3/getting-started/introduction/">getting started guide</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>

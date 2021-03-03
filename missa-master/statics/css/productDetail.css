@@ -1,0 +1,203 @@
+#hotelContainer{
+  width:800px;
+}
+
+.hotelInfo {
+  text-align:left;
+  position:relative;
+  display: inline-block;
+  width:100%;
+  height:100%;
+  box-sizing:border-box;
+ 
+}
+
+.hotel_image {
+  object-fit: fill;
+  width: 100%;
+  height: 400px;
+  border-radius:5px;
+  margin-bottom: 15px;
+}
+#hotel_name {
+  font-size:xx-large;
+  margin-top:350px;
+  margin-left:50px;
+}
+
+
+#hotel_description{
+  height:100px;
+  margin-top:10px;
+  margin-left:50px;
+  margin-right:50px;
+}
+
+#hotel_contact{
+  background-color:#E7DCBF;
+  font-size:x-small;
+  height:70px;
+  line-height:18px;
+  margin-left:50px;
+  margin-right:50px;
+  margin-bottom: 30px;
+  padding:5px;
+}
+
+#roomListTitle{
+	position:relative;
+	width:500px;
+	height:100%;
+	margin-top:10px;
+}
+#roomList {
+    position:relative;
+	width:600px;
+	height:100%;
+	margin-top:10px;
+
+}
+
+
+.room_image img{
+  height: 200px;
+  width: 150px;
+  border-radius:10px;
+  float:left;
+  object-fit: cover;
+  position:relative;
+  border-radius:10px;
+  margin-left:10px;
+  margin-bottom:10px
+}
+
+.check_button{
+	font-size: small!important;
+    float: right;
+    width: 80px!important;
+    height: 30px;
+    border-radius: 3px!important;
+    background-color: #E7DCBF!important;
+}
+
+
+.panel-group.panel-group{
+  position:relative;
+  margin:auto;
+  border-width:1px;
+  border-color: #E7DCBF;
+  border-style:solid;
+  border-radius:5px;
+  text-align:left;
+  box-sizing:border-box;
+}
+
+.panel-heading.panel-heading{
+  background-color: #E7DCBF;
+  width:100%;
+  font-size:large;
+}
+.panel-body{
+  text-align:right;
+  position:relative;
+  display: inline-flex;
+  width:100%;
+  border-width:2px;
+  border-color: #E7DCBF;
+  border-radius:15px;
+  box-sizing:border-box;
+  padding:5px;
+}
+
+.room_display{
+  text-align:right;
+  position:relative;
+  display: inline-block;
+  width:100%;
+  height:100%;
+  box-sizing:border-box;
+  padding:20px;
+}
+
+.trackingButton.trackingButton{
+    font-size: small;
+    float: right;
+    width: 120px;
+    padding: 10px;
+    border-radius: 3px;
+    border-width: 1px;
+    border-color: #E7DCBF;
+}
+.room_priceInfo{
+	padding-top: 25%;
+    font-size: x-large;
+    color: #d00d0d;
+}
+.room_checkInfo{
+	display: inline!important;
+	float:left;
+}
+.dropdownlist_room_amount{
+    overflow:visible;
+    position: absolute;
+
+}
+
+select{
+	vertical-align: top;
+}
+.d-flex{display:-ms-flexbox!important;display:flex!important}
+.flex-column{-ms-flex-direction:column!important;flex-direction:column!important}
+.align-items-center{-ms-flex-align:center!important;align-items:center!important}
+.p-3{padding:1rem!important}
+.mb-3,.my-3{margin-bottom:1rem!important}
+.bg-white{background-color:#fff!important}
+.border-bottom{border-bottom:1px solid #dee2e6!important}
+.shadow-sm{box-shadow:0 .125rem .25rem rgba(0,0,0,.075)!important}
+  .flex-md-row {
+    -webkit-box-orient: horizontal !important;
+    -webkit-box-direction: normal !important;
+    -webkit-flex-direction: row !important;
+        -ms-flex-direction: row !important;
+            flex-direction: row !important;
+  }
+  .px-md-4 {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+  }
+
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+.mt-0,.my-0{
+	margin-top:0!important}
+    margin-right: auto !important;
+  }
+.mt-2,.my-2{
+	margin-top:.5rem!important
+	}
+  .my-md-0 {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .mr-md-3 {
+    margin-right: 1rem !important;
+  }
+.font-weight-normal{font-weight:400!important}
+.p-2{padding:.5rem!important}
+.text-dark{color:#343a40!important}
+.btn{display:inline-block;font-weight:400;color:#212529;text-align:center;vertical-align:middle;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-color:transparent;border:1px solid transparent;padding:.375rem .75rem;font-size:1rem;line-height:1.5;border-radius:.25rem;transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out}
+.btn-outline-light{color:#f8f9fa;border-color:#f8f9fa}
+.btn-outline-primary{color:#007bff;border-color:#007bff}
+
+.btn.disabled,.btn:disabled{
+	opacity:.65;
+	background-color: #e7dcbf;
+    color: #700000;
+    }
+a.btn.disabled,fieldset:disabled a.btn{pointer-events:none}
+.btn-primary{color:#fff;background-color:#007bff;border-color:#007bff}
+.btn-primary:hover{color:#fff;background-color:#0069d9;border-color:#0062cc}
+
+
+

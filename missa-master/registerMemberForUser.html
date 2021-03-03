@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>註冊會員</title>
+    
+    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+                <h1><a href="index.html">返回首頁</a></h1>
+        </div>
+        
+        <div id="content">
+            <h2>註冊會員資料</h2>
+            <div id="flashMessage" class="message" style="display: none;"></div>
+
+            <form id="form" accept-charset="utf-8">
+                <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+                <div class="input text required">
+                        <label for="member_lastname" >姓</label>
+                        <input name="lastname" maxlength="30" type="text" id="member_lastname" placeholder="Last name" required="required">
+                </div>
+                <div class="input text required">
+                    <label for="member_firstname" >名</label>
+                    <input name="firstname" maxlength="30" type="text" id="member_firstname" placeholder="First name" required="required">
+                </div>
+                
+                <div class="input email required">
+                    <label for="member_email">電郵</label>
+                    <input name="email" maxlength="50" type="email" id="member_email" required="required">
+                </div>
+                <div class="input password required">
+                    <label for="member_password">密碼</label>
+                    <input name="password" maxlength="30" type="password" id="member_password" required="required">
+                </div>
+                <div class="input birthday required">
+                        <label for="member_dob">生日</label>
+                        <input name="birthday" maxlength="30" type="date" id="member_dob" required="required">
+                        
+                </div>
+                <div class="submit"><input type="button" value="註冊" id="submit"></div>
+            </form>
+            
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    // 處理表單點擊事件
+                    var $form = $('#submit');
+                    $form.click(function() {
+                        submit();
+                    });
+
+                    function submit() {
+                        var firstname = $('#member_firstname').val();
+                        var lastname = $('#member_lastname').val();
+                        var email = $('#member_email').val();
+                        var password = $('#member_password').val();
+                        var birthday =  $('#member_dob').val();
+						$("#test1").text = birthday;
+                        var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+                        var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+                        if (!email_rule.test(email)) {
+                            alert("Email格式不符！");
+                        }
+                        else if(!password_rule.test(password)) {
+                            alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
+                        }
+                        else {
+                            // 將資料組成JSON格式
+                            var data_object = {
+                                "firstname": firstname,
+                                "lastname": lastname,
+                                "email": email,
+                                "password": password,
+                                "birthday" : birthday
+                            };
+
+                            // 將JSON格式轉換成字串
+                            var data_string = JSON.stringify(data_object);
+
+                            // 發出POST的AJAX請求
+                            $.ajax({
+                                    type: "POST",
+                                    url: "api/member.do",
+                                    data: data_string,
+                                    crossDomain: true,
+                                    cache: false,
+                                    dataType: 'json',
+                                    timeout: 5000,
+                                    success: function (response) {
+                                        $('#flashMessage').html(response.message);
+                                        $('#flashMessage').show();
+                                        if(response.status == 200){
+                                            alert("註冊成功");
+                                            setTimeout(function () { window.location.href = "login.html"; }, 1000);
+                                        }
+                                    },
+                                    error: function () {
+                                        alert("無法連線到伺服器！");
+                                    }
+                            });
+                        }
+                    }
+
+                  
+                });
+            </script>
+
+        </div>
+        
+        <div id="footer">
+            
+        </div>
+    </div>
+</body>
+
+</html>

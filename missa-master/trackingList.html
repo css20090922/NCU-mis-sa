@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Jekyll v3.8.5">
+
+  <title>追蹤清單 ｜ NCU MIS SA</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+  <link href="statics/css/font-awesome.min.css" rel="stylesheet">
+  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+
+  <style>
+  body{
+   	margin-bottom: 120px;
+ 	font-family:"Microsoft JhengHei"!important;
+ 	}
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+    
+  img{
+  height: 200px;
+  width: 96%!important;
+  border-radius:7px!important;
+  float:left;
+  object-fit: cover;
+  position:relative;
+  border-radius:10px;
+  margin-left:10px;
+  margin-bottom:10px
+}
+  .browse_button{
+	font-size: small!important;
+    height: 40px;
+    border-radius: 3px!important;
+    background-color: #E7DCBF!important;
+}
+  .delete_button{
+	font-size: small!important;
+    height: 40px;
+    border-radius: 3px!important;
+    background-color: #eaeae7!important;
+}
+     .btn-outline-primary.focus,.btn-outline-primary:focus{box-shadow:0 0 0 .2rem rgba(0,123,255,.5)}
+     .btn-outline-primary:hover{color:#fff!important;background-color:#cab57f!important;border-color:#cab57f!important}
+
+  </style>
+  <!-- Custom styles for this template -->
+  <link href="statics/css/product.css" rel="stylesheet">
+  <link href="statics/css/jquery-confirm.css" rel="stylesheet">
+
+  <script src="statics/js/jquery-3.4.1.min.js"></script>
+  <script src="statics/js/jquery-confirm.js"></script>
+</head>
+
+<body>
+	<div
+		class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+		<h5 class="my-0 mr-md-auto font-weight-normal">NCU_MIS-SA</h5>
+		<nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="index.html">首頁</a>
+        <a class="p-2 text-dark" href="memberList.html">會員管理模組</a>
+        <a class="p-2 text-dark" href="hotelList.html">店家管理模組</a>
+        <a class="p-2 text-dark" href="roomList.html">房間管理模組</a>
+        <a class="p-2 text-dark" href="product.html">旅館列表</a>
+        <a class="p-2 text-dark" href="order.html">訂單列表</a>
+        <a class="p-2 text-dark" href="login.html" id="member_login">會員登入/註冊</a>
+        <a class="p-2 text-dark" href="javascript:member_logout(); " id="member_logout">會員登出</a>
+
+		</nav>
+		<a class="btn btn-outline-primary" href="trackingList.html" style="color: #cab57f;border-color: #cab57f;">追蹤清單</a>
+	</div>
+
+	<div
+		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-4">追蹤清單</h1>
+		<p class="lead">以下是您有追蹤之房間</p>
+	</div>
+
+	<div class="album py-5 bg-light">
+		<div class="container" style="width: 800px;">
+			<div id="track_panel" class="row"></div>
+		</div>
+	</div>
+	
+  <script>
+    var client_track_obj = getTrackDataFromClient();
+    console.log(client_track_obj.toString());
+  
+    function getTrackDataFromClient() {
+      let track = JSON.parse(localStorage.getItem("client_track_obj"));
+      track = !track ? new Array() : track;
+      return track;
+    }
+    
+    if (client_track_obj.length == 0) {
+    	alert("追蹤清單沒有任何商品！");
+    }
+    else{
+    	getTrackedProduct();
+    }
+    
+
+    function getTrackedProduct() {
+      $.ajax({
+        type: "GET",
+        url: "api/trackingList.do",
+        crossDomain: true,
+        cache: false,
+        data: "id_list=" + client_track_obj.toString(),
+        dataType: 'json',
+        timeout: 5000,
+        success: function (response) {
+          if (response.status == 200) {
+        	  updateTrackedTable(response.response.data);
+          }
+        },
+        error: function () {
+          alert("無法連線到伺服器！");
+        }
+      });
+    }
+    
+
+    function updateTrackedTable(data) {
+		console.log("enter method addtrackedProduct");
+		console.log(data[0]["room_id"]);
+		console.log(data.room_id);
+
+		var inner_html = '';
+		$.each(data, function (index, value){
+		inner_html += '<div class="card mb-3 shadow-sm" >';
+		inner_html += '<div class="product_id card-text" style="margin: 10px;"><small class="text-muted">id:'
+				+ value["room_id"] + '</small></div>';
+		inner_html += '<img src="' + value["room_img"] + '" class="card-img-top" alt="圖片失效" title="旅館預覽圖">';
+		inner_html += '<div class="card-body">';
+		inner_html += '<h3 class="card-title">' + value["room_name"] + '</h3>'
+		inner_html += '<button id="browse_button" class="browse_button btn btn-lg btn-block" onclick="showDetailHtml('+ value["hotel_id"] +')">瀏覽房間</button>';
+		inner_html += '<button id="delete_button" class="delete_button btn btn-lg btn-block" onclick="deleteTrackedRoom('+ value["room_id"] +')">刪除房間</button>';
+		inner_html += '<p class="product_lowestprice card-text">NTD$ '
+				+ value["room_price"] + '</p>';
+		inner_html += '</div> </div>';
+		});
+		console.log(inner_html);
+
+		$('#track_panel').append(inner_html);
+
+    }
+    function showDetailHtml(hotel_id){
+      	window.location = "productDetail.html?id="+hotel_id;
+    }
+    function deleteTrackedRoom(room_id){
+    	//alert(room_id);
+    	//alert(client_track_obj.indexOf(room_id.toString()));
+    	client_track_obj.splice( client_track_obj.indexOf(room_id.toString()), 1 );
+    	
+    	updateTrackDataToClent();
+    	location.reload();
+    }
+	function updateTrackDataToClent() {
+	    localStorage.setItem("client_track_obj", JSON.stringify(client_track_obj));
+
+	}
+
+	function checkCookie() {
+      var memberEmail = getCookie("memberEmail");
+
+      if (memberEmail != ""){
+			$("#member_logout").show();
+			$("#member_login").hide();
+			login_status = 1;
+		} 
+      else{
+      	if(hotelEmail != ""){
+      		login_status = 2;
+      	}
+      	else{
+      	    login_status = 0;
+      	}
+      }
+		if (hotelEmail != ""){
+			$("#member_logout").show();
+			$("#member_login").hide();
+		} 
+
+                  
+    }
+
+	  function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
+      }
+      return "";
+    }
+	  
+	  
+		 function member_logout(action){
+          var memberEmail = getCookie("memberEmail");
+			 var hotelEmail = getCookie("hotelEmail");
+
+          if (memberEmail != ""){
+         	 $.ajax({
+                  type: "GET",
+                  url: "api/login.do",
+						data: "user=member",
+                  crossDomain: true,
+                  cache: false,
+                  dataType: "string",
+                  timeout: 5000,
+                  success: function (response) {
+                 	 alert("登出成功！");
+                  	return;
+                  },
+                  error: function () {
+							return ;	
+						}
+          });
+          window.location.reload();
+			 } 
+			 if (hotelEmail != ""){
+				 $.ajax({
+                  type: "GET",
+                  url: "api/login.do",
+						data: "user=hotel",
+                  crossDomain: true,
+                  cache: false,
+                  dataType: "string",
+                  timeout: 5000,
+                  success: function (response) {
+                 	 alert("登出成功！");
+                  	return;
+                  },
+                  error: function () {
+							return ;	
+						}
+          });
+          window.location.reload();
+			 } 
+		 }
+
+	$(document).ready(function () { 
+		$("#member_logout").hide();
+		checkCookie();
+
+	});
+
+  </script>
+
+  <footer class="text-muted">
+    <div class="container">
+      <p class="float-right">
+        <a href="#">Back to top</a>
+      </p>
+      <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+      <p>New to Bootstrap? <a href="https://getbootstrap.com/">Visit the homepage</a> or read our <a
+          href="/docs/4.3/getting-started/introduction/">getting started guide</a>.</p>
+    </div>
+  </footer>
+</body>
+
+</html>

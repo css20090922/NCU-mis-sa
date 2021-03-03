@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>更新店家資料</title>
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="container">
+    	<h1><a href="hotelList.html">返回店家管理畫面</a></h1>
+        <div id="header">
+        </div>
+        <div id="content">
+            <h2>更新店家資料</h2>
+           
+
+            <div id="flashMessage" class="message" style="display: none;"></div>
+
+            <form id="form" accept-charset="utf-8">
+                <div style="display:none;">
+                	<input type="hidden" name="_method" value="POST">
+                </div>
+                <div class="input text required">
+                    <label for="hotel_name">店名</label>
+                    <input name="name" type="text" id="hotel_name" required="required">
+                </div>
+                <div class="input email required">
+                    <label for="hotel_email">電郵</label>
+                    <input name="email" maxlength="50" type="email" id="hotel_email" required="required" disabled>
+                </div>
+                <div class="input password required">
+                    <label for="hotel_password">密碼</label>
+                    <input name="password" type="password" id="hotel_password" required="required">
+                </div>
+                <div class="hotel phone required">
+                    <label for="hotel_phone">電話</label>
+                    <input name="phone" type="text" id="hotel_phone" required="required" >
+                </div>
+                <div class="hotel country">
+                    <label for="hotel_country">國家</label>
+                    	<select name="country" id="hotel_country">
+                            <option value="Taiwan" selected="selected">Taiwan</option>
+                            <option value="Japan">Japan</option>
+                            <option value="China">China</option>
+						</select>
+                </div>
+                <div class="hotel city">
+                    <label for="hotel_city">城市</label>
+                    	<select name="city" id="hotel_city">
+                            <option value="TaipeiCity" selectedㄠ = "selected">TaipeiCity</option>
+                            <option value="NewTaipeiCity">NewTaipeiCity</option>
+                            <option value="KeelungCity">KeelungCity</option>
+                            <option value="TaoyuanCity" >TaoyuanCity</option>
+                            <option value="HisnchuCity" >HisnchuCity</option>
+                            <option value="HisnchuCounty" >HisnchuCounty</option>
+                            <option value="MiaoliCounty" >MiaoliCounty</option>
+                            <option value="TaichungCity" >TaichungCity</option>
+                            <option value="ChanghuaCounty" >ChanghuaCounty</option>
+                            <option value="YunlinCounty" >YunlinCounty</option>
+                            <option value="NantouCounty" >NantouCounty</option>
+                            <option value="ChiayiCounty" >ChiayiCounty</option>
+                            <option value="ChiayiCity" >ChiayiCity</option>
+                            <option value="TainanCity" >TainanCity</option>
+                            <option value="KaohsiungCity" >KaohsiungCity</option>
+                            <option value="PingtungCounty">PingtungCounty</option>
+                            <option value="YilanCounty">PingtungCounty</option>
+                            <option value="HualienCounty ">HualienCounty</option>
+                            <option value="TaitungCounty">TaitungCounty</option>
+                            <option value="PenghuCounty">PenghuCounty</option>
+                            <option value="Kinmen County">Kinmen County</option>
+                            <option value="LienchiangCounty">LienchiangCounty</option>
+						</select>
+                </div>
+                <div class="hotel image required" >
+                    <label for="hotel_image">圖片連結</label>
+                    <input name="image" type="text" id="hotel_image" required="required">
+                </div>
+                <div class="hotel address">
+                    <label for="hotel_address">地址</label>
+                    <input name="address" type="text" id="hotel_address" required="required">
+                </div>
+                <div class="hotel description">
+                    <label for="hotel_description">敘述</label>
+                    <input name="description" maxlength="200" type="text" id="hotel_description">
+                </div>
+                <div class="submit"><input type="button" value="更新" id="submit"></div>
+            </form>
+
+            <script type="text/javascript">
+                // 取得網址參數
+                var url_string = window.location.href;
+                var url = new URL(url_string);
+                var id = url.searchParams.get("id");
+                var sql_num = 0;
+                //按下更新按鈕後回傳後端更新資料
+                function updateHotel(id) {
+                    var name = $('#hotel_name').val();
+                    var email = $('#hotel_email').val();
+                    var password = $('#hotel_password').val();
+                    var phone = $('#hotel_phone').val();
+                    var country = $('#hotel_country').val();
+                    var city = $('#hotel_city').val();
+                    var image = $('#hotel_image').val();
+                    var address = $('#hotel_address').val();
+                    var description = $('#hotel_description').val();
+
+
+                    var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+                    if(!password_rule.test(password)) {
+                        alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
+                    }
+                    else {
+                        // 將資料組成JSON格式
+                        var data_object = {
+                            "id": id,
+                            "name": name,
+                            "email": email,
+                            "password": password,
+                            "phone" : phone,
+                            "country" :country,
+                            "city" : city,
+                            "image" : image,
+                            "address" : address,
+                            "description" :description
+                        };
+
+                        // 將JSON格式轉換成字串
+                        var data_string = JSON.stringify(data_object);
+
+                        // 發出POST的PUT請求
+                        $.ajax({
+                                type: "PUT",
+                                url: "api/hotel.do",
+                                data: data_string,
+                                crossDomain: true,
+                                cache: false,
+                                dataType: 'json',
+                                timeout: 5000,
+                                success: function (response) {
+                                    $('#flashMessage').html(response.message);
+                                    $('#flashMessage').show();
+                                    if(response.status == 200){
+                                        updateSQLTable(response.response);
+                                        getHotel();
+                                    }
+                                },
+                                error: function () {
+                                    alert("無法連線到伺服器！");
+                                }
+                        });
+                    }
+                }
+
+                // 更新SQL指令歷史表格
+                function updateSQLTable(data) {
+                    var time = (data.time / 1000000).toFixed(2);
+                    var table_html = "";
+                    
+                    sql_num += 1
+
+                    table_html += '<tr>';
+                    table_html += '<td>' + sql_num + '</td>';
+                    table_html += '<td>' + data.sql + '</td>';
+                    table_html += '<td style="text-align: right">' + '0' + '</td>';
+                    table_html += '<td style="text-align: right">' + data.row + '</td>';
+                    table_html += '<td style="text-align: right">' + data.row + '</td>';
+                    table_html += '<td style="text-align: right">' + time + '</td>';
+                    table_html += '</tr>';
+                    $("#sql_log > tbody").append(table_html);
+                    $("#sql_summary").html("(default) " + data.row + " queries took " + time + " ms");
+                }
+
+                 /**將從後端傳來的國家資料取出，放入select內*/
+                 var countrycity;
+                    var $country = $("#hotel_country");
+                    function setcountry(data){
+                        $country.empty();
+                        $.each(data, function(index, value) {
+                            var countryobj = JSON.parse(value);
+                            if(index==0){
+                                $country.append(new Option(countryobj["countryname"],countryobj["countryname"],true));     
+                            }else{
+                                $country.append(new Option(countryobj["countryname"],countryobj["countryname"],false));
+                            }   
+                        })
+                    }
+
+                     /**將從後端傳來的城市資料取出，對應hotel_country選擇的國家後，放入select內*/
+                    var $city = $("#hotel_city");
+                        $country.change(function(){
+                        setcity($country.val());
+                    });
+                    function setcity(country){
+                           $city.empty();
+                           
+                           $.each(countrycity, function(index, value) {
+                                var countryobj = JSON.parse(value);
+                                if(countryobj["countryname"]==country){
+                                    for(var city in countryobj["city"])
+                                    if(index==0){
+                                        $city.append(new Option(countryobj["city"][city],countryobj["city"][city],true));
+                                    }else{
+                                        $city.append(new Option(countryobj["city"][city],countryobj["city"][city],false));    
+                                    }   
+                                }
+                            })
+                       }
+                    
+                function getHotel() {
+                    $.ajax({
+                        type: "GET",
+                        url: "api/hotel.do",
+                        crossDomain: true,
+                        data: "id=" + id,
+                        cache: false,
+                        dataType: 'json',
+                        timeout: 5000,
+                        success: function (response) {
+                            if(response.status == 200){
+                               
+                            	updateSQLTable(response.response);
+                                setcountry(response['countrycity']);
+                                countrycity = response['countrycity'];
+                            	document.getElementById('hotel_name').value = response['response']['data'][0]['name'];
+                            	document.getElementById('hotel_email').value = response['response']['data'][0]['email'];
+                            	document.getElementById('hotel_password').value = response['response']['data'][0]['password'];
+                                document.getElementById('hotel_phone').value = response['response'  ]['data'][0]['phone'];
+                                document.getElementById('hotel_country').value = response['response']['data'][0]['countryname'];
+                                setcity($country.val());
+                                document.getElementById('hotel_city').value = response['response']['data'][0]['cityname'];
+                                document.getElementById('hotel_image').value = response['response']['data'][0]['image'];
+                                document.getElementById('hotel_address').value = response['response']['data'][0]['address'];
+                                document.getElementById('hotel_description').value = response['response']['data'][0]['description'];
+                            }
+                            console.log(response);
+                        },
+                        error: function () {
+                            alert("無法連線到伺服器！");
+                        }
+                    });
+                }
+
+                $('#submit').click(function() {
+                    updateHotel(id)
+                });
+                
+                $(document).ready(function() {
+                	// 發出GET的AJAX請求取得原本該會員的資料
+                 	$("#sql_log > tbody").empty();
+                    getHotel();
+                });
+            </script>
+        </div>
+        <div id="footer">
+        </div>
+    </div>
+
+    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
+        <caption id="sql_summary">(default) 0 query took 0 ms</caption>
+        <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Query</th>
+                <th>Error</th>
+                <th>Affected</th>
+                <th>Num. rows</th>
+                <th>Took (ms)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+
+</html>

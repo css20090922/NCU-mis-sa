@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Jekyll v3.8.5">
+
+  <title>Step 3 填寫詳細資料</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+  <link href="statics/css/font-awesome.min.css" rel="stylesheet">
+  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+  <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+  <!-- Custom styles for this template -->
+  <link href="statics/css/product.css" rel="stylesheet">
+  <link href="statics/css/jquery-confirm.css" rel="stylesheet">
+
+  <script src="statics/js/jquery-3.4.1.min.js"></script>
+  <script src="statics/js/jquery-confirm.js"></script>
+</head>
+
+<body>
+    <div align="center" style="font-family:Microsoft JhengHei;">
+  
+	<div>
+   	 <pre style="font-family:Microsoft JhengHei;"><a style="vertical-align:middle;"><img src="https://i.imgur.com/ZC2fTSj.png" alt="airplane-icon" border="0"></a><font color=#d8ccab>Step 1 確認預訂房間  >  </font><font color=#d8ccab>Step 2 選擇付款方式  >  </font><font color=#d8ccab>Step 3 填寫詳細資料  >  </font><font color="grey">Step 4 完成訂單</font>
+  	 </pre>
+ 	</div>
+ 
+ 	<div style="background-color:#E7DCBF;width:850px;height:30px;line-height:30px;font-size:20px;text-align:left"><b>&emsp;訂購人資料</b></div><br>
+ 
+ 	<div style="width:750px;text-align:left;">
+   		<label id="lnameError" style="color:#B22222;visibility:hidden;">&emsp;請輸入正確姓氏！(30字以內中英字符)</label>
+   		<label id="fnameError" style="color:#B22222;visibility:hidden;">&emsp;請輸入正確名字！(30字以內中英字符)</label><br>
+   
+   		<a style="vertical-align:middle;"><img src="https://upload.cc/i1/2019/12/07/3FoRgl.png" alt="name" border="0"></a>
+   		<label>姓氏&emsp;&emsp;</label>
+   		<input type="text" id="b1" maxlength="30" style="width: 150px;height: 20px;" >&nbsp;&nbsp;&nbsp;
+   		<label>名字&nbsp;&nbsp;</label>
+   		<input type="text" id="b2" maxlength="30" style="width: 150px;height: 20px;"><br>
+   
+   		<label id="phoneError" style="color:#B22222;visibility:hidden;">&emsp;請輸入正確手機號碼(10~15碼)！</label><br>
+   		<a style="vertical-align:middle;"><img src="https://upload.cc/i1/2019/12/08/BV4dq2.png" alt="phone" border="0"></a>
+   		<label>手機號碼&emsp;</label>
+   		<input type="text" id="b3" maxlength="15" style="width:200px;height:20px;" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"><br>
+   
+   		<label id="emailError" style="color:#B22222;visibility:hidden;">&emsp;請輸入正確的電子信箱格式！</label><br>
+   		<a style="vertical-align:middle;"><img src="https://upload.cc/i1/2019/12/08/xGd8LC.png" alt="email" border="0"></a>
+  		<label>電子信箱&emsp;</label>
+   		<input id ="email" type="text" maxlength="50" style="width:300px;height:20px;">
+   		<label style="color:#808040;">訂單確認函將發送至此信箱</label><br><br>
+   
+   		<label style="font-weight:bolder;">請問您是否為住客本人？</label><br>
+   			<input type="radio" name="guest" class="identity" value="yes" style="width:20px;height:20px;">  是，我就是住客本人<br>
+   			<input type="radio" name="guest" class="identity" value="no" style="width:20px;height:20px;" checked>  否，代訂房間<br><br>
+   
+ 	</div>
+   	
+   	<div style="background-color:#E7DCBF;width:850px;height:30px;line-height:30px;font-size:20px;text-align:left"><b>&emsp;住客資料</b></div><br>
+   
+   	<div style="width:750px;text-align:left;">
+    	<label id="lnameError2" style="color:#B22222;visibility:hidden;">&emsp;請正確輸入姓名！(30字以內中英字符)</label>
+   		<label id="fnameError2" style="color:#B22222;visibility:hidden;">&emsp;請輸入正確名字！(30字以內中英字符)</label><br>
+   
+    	<a style="vertical-align:middle;"><img src="https://upload.cc/i1/2019/12/07/3FoRgl.png" alt="name" border="0"></a>
+     	<label>姓氏&emsp;&emsp;</label>
+     	<input type="text" id="b4" maxlength="30" style="width: 150px;height: 20px;">&nbsp;&nbsp;&nbsp;
+     	<label>名字&nbsp;&nbsp;</label>
+     	<input type="text" id="b5" maxlength="30" style="width: 150px;height: 20px;"><br><br>
+   
+     	<div style="position:relative;">
+     		<a style="vertical-align:middle;"><img src="https://upload.cc/i1/2019/12/08/R7YZir.png" alt="note" border="0"></a>
+     		<label>備註(選填)&emsp;</label>
+      		<textarea style="width:350px;height:100px;" placeholder="200字以內"></textarea>
+      		<label style="color:#c9be9f;position:absolute;right:0;buttom:0;">若您有任何特殊需要，請告<br>知我們，將盡力為您服務。</label>
+     	</div>
+    </div>
+   
+   	<div style="width:850px;text-align:right;">
+    	<input id="next" type="button" value="確認資料，送出" style="width:140px;height:40px;border:2px white none;border-radius:5px;background-color:#E7DCBF;"><br>
+   	</div><br>
+ 
+	</div>
+
+	<script>
+	
+		var mid;
+		var m_id;
+		
+		$(document).ready(function() {
+			
+			getMemberID();
+			
+			$('.identity').change(function() {
+	        	if (this.value == 'yes') { //同一人
+	        		$('#b4').val($('#b1').val());
+	        		$('#b5').val($('#b2').val());
+	        	}
+	       		else if (this.value == 'no') { //不同人
+	        		$('#b4').val("");
+	        		$('#b5').val("");
+	       		}
+	    	});
+			
+			$("#next").click(function (){
+				$("#lnameError").css('visibility','hidden');
+				$("#fnameError").css('visibility','hidden');
+				$("#phoneError").css('visibility','hidden');
+				$("#emailError").css('visibility','hidden');
+				$("#lnameError2").css('visibility','hidden');
+				$("#fnameError2").css('visibility','hidden');
+				
+				var email = $('#email').val();
+				var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+	            
+				if((!$('#b1').val().match( /^[\u4e00-\u9fa5|a-zA-Z]*$/))||$('#b1').val() === ""){ //需輸入中英字符
+					$("#lnameError").css('visibility','visible');		
+				}
+				else if((!$('#b2').val().match( /^[\u4e00-\u9fa5|a-zA-Z]*$/))||$('#b2').val() === ""){
+					$("#fnameError").css('visibility','visible');
+				}
+				else if($('#b3').val().length < 10){
+					$("#phoneError").css('visibility','visible');
+				}
+				else if(!email_rule.test(email)){
+			  		$("#emailError").css('visibility','visible');
+				}
+				else if((!$('#b4').val().match( /^[\u4e00-\u9fa5|a-zA-Z]*$/))||$('#b4').val() === ""){
+					$("#lnameError2").css('visibility','visible');		
+				}
+				else if((!$('#b5').val().match( /^[\u4e00-\u9fa5|a-zA-Z]*$/))||$('#b5').val() === ""){
+					$("#fnameError2").css('visibility','visible');
+				}
+				else{
+					getInfo();
+					document.location.replace("checkout_4.html");
+				}
+			});
+			
+		});
+		
+		
+		function getLoginMember(data){
+        	var loginEmail = data["member_email"];
+			
+			$.ajax({
+		          type: "GET",
+		          url: "api/member.do",
+		          crossDomain: true,
+		          data: "email="+ loginEmail,
+		          async: false,
+		          cache: false,
+		          dataType: 'json',
+		          timeout: 5000,
+		          success: function (response) {
+		            if (response.status == 200) {
+		            	m_id = response['response']['data'][0]['id'];
+		            	alert(m_id);
+		            }
+		          },
+		          error: function () {
+		            alert("無法連線到伺服器！");
+		          }
+		    });
+			return m_id;
+		}
+		
+		//取得此筆訂單會員身分
+	    function getMemberID() {
+	        $.ajax({
+	          type: "GET",
+	          url: "api/productDetail.do",
+	          crossDomain: true,
+	          cache: false,
+	          dataType: 'json',
+	          timeout: 5000,
+	          success: function (response) {
+	            if (response.status == 200) {
+	            	mid = getLoginMember(response.response);
+	            	alert(mid);
+	            }
+	          },
+	          error: function () {
+	            alert("無法連線到伺服器！");
+	          }
+	        });
+	    }
+		
+	      
+		
+		
+		
+		//取得此筆訂單資訊
+	    function getInfo() {
+	        $.ajax({
+	          type: "GET",
+	          url: "api/productDetail.do",
+	          crossDomain: true,
+	          cache: false,
+	          dataType: 'json',
+	          timeout: 5000,
+	          success: function (response) {
+	            if (response.status == 200) {
+	            	saveOrderData(response.response);
+	            }
+	          },
+	          error: function () {
+	            alert("無法連線到伺服器！");
+	          }
+	        });
+	      };
+		
+	        
+	    
+		//要丟進Order資料庫 `member_id`, `room_id`, `room_amount`, `total_price`, `checkin_date`, `checkout_date`, `customer`, `paid_status`, `created`, `hotel_id`, `room_name`, `room_price`, `room_image` 
+	  	function saveOrderData(data){
+	  		var url_string = window.location.href;
+            var url = new URL(url_string);
+            
+            var lname = $('#b4').val();
+	        var fname = $('#b5').val();
+            
+	        var rid = data['room_id'];
+			var amount = data['room_amount'];
+			var total = calcTotal(data);
+			var in_date = data['checkin_date'];
+	        var out_date = data['checkout_date'];
+	        var customer = lname + fname;
+            var paid_status = url.searchParams.get("paid_status");
+	        var hid = data['hotel_id'];
+			var rname = data['room_name'];
+			var room_img = data['room_image'];
+			
+			
+			Date.prototype.Format = function (fmt) {
+				var o = {
+				"M+": this.getMonth() + 1, 
+				"d+": this.getDate()+ 1,
+				
+				};
+				if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+				for (var k in o)
+				if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+				return fmt;
+			};
+			
+			var created = new Date().Format("yyyy-MM-dd");
+			
+			
+			var str_price = data['room_price'];
+			var arr_price = str_price.split(" ");
+	  		var price = arr_price[1];
+	  		
+	  		// 將資料組成JSON格式
+	        var data_object = {
+	        	"member_id": mid,	
+	        	"room_id": rid,
+	        	"room_amount": amount,
+	            "total_price": total,
+	            "checkin": in_date,
+	            "checkout": out_date,
+	            "customer": customer,
+	            "paid_status": paid_status,
+	            "created": created,
+	            "hotel_id": hid,
+	            "room_name": rname,
+	            "room_price": price,
+	            "room_img": room_img
+	        };
+
+	        // 將JSON格式轉換成字串
+	        var data_string = JSON.stringify(data_object);
+
+	        // 新增一筆訂單
+	        $.ajax({
+	                type: "POST",
+	                url: "api/order.do",
+	                crossDomain: true,
+	                data: data_string,
+	                cache: false,
+	                dataType: 'json',
+	                timeout: 5000,
+	                success: function (response) {
+	                    if(response.status == 200){
+	                    	alert("post");
+	                    	console.log(data_string);
+	                    	alert("資料已存入訂單");
+	                    }
+	                },
+	                error: function () {
+	                    alert("無法連線到伺服器！");
+	                }
+	        });
+	  	}
+		
+		
+	  	function calcday(data){ 
+	    	var inDate = data['checkin_date']; // inDate和 outDate是 YYYY-MM-DD格式
+	    	var outDate = data['checkout_date'];
+			var d1 = new Date(inDate); 
+			var d2 = new Date(outDate);
+			var day = parseInt(Math.abs(d1 - d2) / 1000 / 60 / 60 / 24); // 把相差的毫秒數轉換為天數
+			return day;
+		};
+		
+		function calcTotal(data) {
+			var str_price = data['room_price'];
+	  		var arr_price = str_price.split(" ");
+	  		var price = arr_price[1];
+	  		var quantity = data['room_amount'];
+	  		var total = parseInt(price) * parseInt(quantity)* calcday(data);
+	  		return total;
+	  	};
+		
+		
+	</script>
+
+</body>
+
+</html>

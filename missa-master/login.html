@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>登入</title>
+	  
+	<!-- Bootstrap core CSS -->
+    <link href="statics/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	
+	<script src="statics/js/jquery-3.4.1.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<style>
+	body{
+ 	  margin-bottom: 120px;
+ 	  font-family:"Microsoft JhengHei"!important;
+ 	  background-image: url('statics/img/loginWallpaper.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      background-size: cover;
+	}	
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+
+    a:hover {
+      color: black;
+    }
+
+
+    .message {
+      clear: both;
+      color: #fff;
+      font-size: 140%;
+      font-weight: bold;
+      margin: 0 0 1em 0;
+      padding: 5px;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+      
+      .btn-outline-primary.focus,.btn-outline-primary:focus{box-shadow:0 0 0 .2rem rgba(0,123,255,.5)}
+	  .btn-outline-primary:hover{color:#fff!important;background-color:#cab57f!important;border-color:#cab57f!important}
+    }
+	
+	
+	</style>
+</head>
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+      <h5 class="my-0 mr-md-auto font-weight-normal">NCU_MIS-SA</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="index.html">首頁</a>
+        <a class="p-2 text-dark" href="memberList.html">會員管理模組</a>
+        <a class="p-2 text-dark" href="hotelList.html">店家管理模組</a>
+        <a class="p-2 text-dark" href="roomList.html">房間管理模組</a>
+        <a class="p-2 text-dark" href="product.html">旅館列表</a>
+        <a class="p-2 text-dark" href="order.html">訂單列表</a>
+
+      </nav>
+      <a class="btn btn-outline-primary" href="trackingList.html" style="color: #cab57f;border-color: #cab57f;">追蹤清單</a>
+    </div>
+  
+
+    <div id="container" style="width: 300px;margin: auto;height: 100%;margin-top: 100px;">
+            <div class="panel panel-default" style="border-color: #e4d6b3;">
+                <div class="panel-heading" style="text-align: center;font-size: large;background-color: #e4d6b3;border-color: #e4d6b3;">登入</div>
+                <div class="panel-body" style="padding: 20px;">
+                <div id="text_box" style="padding: 10px;">
+
+                    <div id="flashMessage" class="message" style="display:none;color:red;font-size:medium;"> </div>
+                    <div>
+                    <div>
+                        	<label for="email">帳號：</label><input id="email" type="text" required="required" placeholder="Email" style="margin-left: 5px;width: 180px;">
+
+                    </div>
+                    <div>
+                        	<label for="password">密碼：</label><input id="password" type="password" required="required" style="margin-left: 5px;width: 180px;">
+                    </div>
+                    </div>
+
+                    <div calss="container" style="display: inline!important;">
+                        <input class="btn btn-lg btn-block" id="submit_member" type="button" value="會員登入" style="float: left;width: 100px;font-size: small;margin-left: 13px;background-color: #e9e8e6;margin-top: 15px">
+                        <input class="btn btn-lg btn-block" id="submit_hotel" type="button" value="店家登入" style="float: left;width: 100px;font-size: small;margin-top: 15px;margin-left: 20px;background-color: #e9e8e6;">
+                   </div>
+                    <div>
+                    	<label style="margin-top: 20px;margin-left: 15px;margin-right: 10px;margin-bottom: -20px;font-weight: normal;font-size: 11px;">
+                    	還沒有帳號？
+                    	</label>
+                    	<a href="registerMemberForUser.html" style="font-size:small;margin-right: 10px;">註冊會員</a><a href="registerHotelForUser.html" style="font-size:small;">註冊店家</a>
+                	</div>
+
+                </div>
+                
+                
+                
+                </div>
+            </div>
+
+    </div>
+
+	<script>
+    $(document).ready(function () {
+        //確認登入
+        checkCookie();
+    
+        //用cookie確認是否已登入，已登入則跳回首頁
+        /*
+        var $form = $('#submit');
+        $form.click(function () {
+            submit();
+        });
+        */
+        
+        $("#submit_member").click(function(event){
+			memberLogin();
+		});
+        $("#submit_hotel").click(function(event){
+			hotelLogin();
+		});
+        
+        function memberLogin(){
+
+            var email = $('#email').val();
+            var password = $('#password').val();
+
+            var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+            var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+            if (!email_rule.test(email)) {
+                alert("Email格式不符！");
+            }
+            else if (!password_rule.test(password)) {
+                alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
+            } else {
+                // 將資料組成JSON格式
+                var data_object = {
+                    "Email": email,
+                    "Password": password,
+                    "user" : "member"
+                };
+
+                // 將JSON格式轉換成字串
+                var data_string = JSON.stringify(data_object);
+
+                // 發出POST的AJAX請求
+                $.ajax({
+                    type: "POST",
+                    url: "api/login.do",
+                    data: data_string,
+                    crossDomain: true,
+                    cache: false,
+                    dataType: 'json',
+                    timeout: 5000,
+                    success: function (response) {
+                        if (response.status == 200) {
+
+                            //自動跳轉回頁面
+                            alert("登入成功！");
+                            setTimeout(function () { window.location.href = "index.html"; }, 1000);
+
+                        } else if (response.status == 405) {
+                            $('#flashMessage').html(response.message);
+                            $('#flashMessage').show();
+                        }
+                        console.log(response);
+                    },
+                    error: function () {
+                        alert("無法連線到伺服器！");
+                    }
+                });
+            }
+        }
+        
+        function hotelLogin(){
+            var email = $('#email').val();
+            var password = $('#password').val();
+
+            var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+            var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+            if (!email_rule.test(email)) {
+                alert("Email格式不符！");
+            }
+            else if (!password_rule.test(password)) {
+                alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
+            } else {
+                // 將資料組成JSON格式
+                var data_object = {
+                    "Email": email,
+                    "Password": password,
+                    "user" : "hotel"
+                };
+
+                // 將JSON格式轉換成字串
+                var data_string = JSON.stringify(data_object);
+
+                // 發出POST的AJAX請求
+                $.ajax({
+                    type: "POST",
+                    url: "api/login.do",
+                    data: data_string,
+                    crossDomain: true,
+                    cache: false,
+                    dataType: 'json',
+                    timeout: 5000,
+                    success: function (response) {
+                        if (response.status == 200) {
+
+                            //自動跳轉回頁面
+                            alert("登入成功！");
+                            setTimeout(function () { window.location.href = "index.html"; }, 1000);
+
+                        } else if (response.status == 405) {
+                            $('#flashMessage').html(response.message);
+                            $('#flashMessage').show();
+                        }
+                        console.log(response);
+                    },
+                    error: function () {
+                        alert("無法連線到伺服器！");
+                    }
+                });
+            }
+        }
+        /*
+        function submit() {
+
+            var email = $('#member_email').val();
+            var password = $('#member_password').val();
+
+            var email_rule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+            var password_rule = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+            if (!email_rule.test(email)) {
+                alert("Email格式不符！");
+            }
+            else if (!password_rule.test(password)) {
+                alert("密碼格式不符，長度至少8，且至少包含一個數字和英文字母！");
+            } else {
+                // 將資料組成JSON格式
+                var data_object = {
+                    "Email": email,
+                    "Password": password,
+                    "user" : "member"
+                };
+
+                // 將JSON格式轉換成字串
+                var data_string = JSON.stringify(data_object);
+
+                // 發出POST的AJAX請求
+                $.ajax({
+                    type: "POST",
+                    url: "api/login.do",
+                    data: data_string,
+                    crossDomain: true,
+                    cache: false,
+                    dataType: 'json',
+                    timeout: 5000,
+                    success: function (response) {
+                        if (response.status == 200) {
+
+                            //自動跳轉回頁面
+                            setTimeout(function () { window.location.href = "index.html"; }, 1000);
+
+                        } else if (response.status == 405) {
+                            $('#flashMessage').html(response.message);
+                            $('#flashMessage').show();
+                        }
+                        console.log(response);
+                    },
+                    error: function () {
+                        alert("無法連線到伺服器！");
+                    }
+                });
+            }
+        }
+        */
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
+            }
+            return "";
+        }
+        function checkCookie() {
+            var memberEmail = getCookie("memberEmail");
+            if (memberEmail != ""){
+                alert("歡迎 " + memberEmail );
+                //自動跳轉回頁面
+                setTimeout(function () { window.location.href = "index.html"; }, 1000);
+
+            }
+                
+        }
+
+    });
+	/*
+		 $(document).ready(function () {
+			 //確認是否已登入
+			checkCookie();
+	            
+				function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name) == 0) { return c.substring(name.length, c.length); }
+                }
+                return "";
+            }
+            function checkCookie() {
+                var memberEmail = getCookie("memberEmail");
+				var hotelEmail = getCookie("hotelEmail");
+                if (memberEmail != ""){
+					$("#memberLogout").show();
+					$("#memberLogin").hide();
+				} 
+				if (hotelEmail != ""){
+					$("#hotelLogout").show();
+					$("#hotelLogin").hide();
+				} 
+                    
+            }
+		 });
+         //會員登出
+		function memberLogout(action){
+				$.ajax({
+                        type: "GET",
+                        url: "api/login.do",
+						data: "user=member",
+                        crossDomain: true,
+                        cache: false,
+                        dataType: "string",
+                        timeout: 5000,
+                        success: function (response) {
+                        	return;
+                        },
+                        error: function () {
+							return ;	
+						}
+                });
+                window.location.reload();
+		}
+		//會員登出
+		function hotelLogout(action){
+				$.ajax({
+                        type: "GET",
+                        url: "api/login.do",
+						data: "user=hotel",
+                        crossDomain: true,
+                        cache: false,
+                        dataType: "string",
+                        timeout: 5000,
+                        success: function (response) {
+                        	return;
+                        },
+                        error: function () {
+							return ;	
+						}
+                });
+                window.location.reload();
+		}
+		*/
+	</script>
+</body>
+</html>

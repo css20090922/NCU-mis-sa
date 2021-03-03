@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>更新房間資料</title>
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+            <h1 id="hotel_name"></h1>
+        </div>
+        
+        <div id="content">
+            <h2>更新房間資料</h2>
+            <a href="roomList.html">房間清單</a>
+            
+            <div id="flashMessage" class="message" style="display: none;"></div>
+
+            <form id="form" accept-charset="utf-8">
+                <div style="display:none;"><input type="hidden" name="_method" value="POST"></div>
+                <div class="input text required">
+                    <label for="hotel_id">店家編號</label>
+                    <input maxlength="11" type="text" id="hotel_id" required="required" disabled>
+                </div>
+                <div class="input text required">
+                    <label for="room_name">房間名稱</label>
+                    <input id="room_name" name="name" maxlength="30" type="text" required="required">
+                </div>
+                <div class="input text required">
+                    <label for="room_price">價格</label>
+                    <input id="room_price" name="name" maxlength="30" type="text" required="required" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                </div>
+                <div class="input text required">
+                    <label for="room_img">圖片連結</label>
+                    <input id="room_img" name="name" maxlength="255" type="text" required="required">
+                </div>
+                <div class="submit"><input type="button" value="更新" id="submit"></div>
+            </form>
+            
+     		<script type="text/javascript">
+     			// 取得網址參數
+            	var url_string = window.location.href;
+            	var url = new URL(url_string);
+            	var id = url.searchParams.get("id");
+            	var sql_num = 0;
+
+            	var hid;
+            	function getRoomHotel() {
+                    //請求取得房間所屬店家資訊
+            		$.ajax({
+            	        type: "GET",
+                    	url: "api/room.do",
+                    	crossDomain: true,
+                    	data: "room_id=" + id,
+                    	cache: false,
+                    	dataType: 'json',
+                    	timeout: 5000,
+                    	success: function (response) {
+                    	    if(response.status == 200){
+                    	    	hid = response['response']['data'][0]['hotel_id'];
+                    	    	getHotelName();
+                    	    }
+                    	    console.log(response);
+                    	},
+                    	error: function () {
+                    	    alert("無法連線到伺服器！");
+                    	}
+                	});
+                }
+            	
+            	function getHotelName() {
+                    // 請求取得房間名稱
+                    $.ajax({
+                            type: "GET",
+                            url: "api/hotel.do",
+                            crossDomain: true,
+                            data: "id=" + hid,
+                        	cache: false,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function (response) {
+                                if(response.status == 200){
+                                	var hname = response['response']['data'][0]['name'];
+                                	$('#hotel_name').text(hname);
+                                }
+                                console.log(response);
+                            },
+                            error: function () {
+                                alert("無法連線到伺服器！");
+                            }
+                    });
+                }
+            	
+            	function updateRoom(id) {
+            		var hid = $('#hotel_id').val();
+                	var name = $('#room_name').val();
+                	var price = $('#room_price').val();
+                	var img = $('#room_img').val();
+
+                	if(name ===""){
+                    	alert("請輸入房間名稱！");
+                    }
+                    else if(price ===""){
+                    	alert("請輸入房間價格！");
+                    }
+                    else if(img ===""){
+                    	alert("請輸入圖片連結！");
+                    }
+                    else{
+                    	// 將資料組成JSON格式
+                		var data_object = {
+                    		"room_id": id,	
+                	    	"hotel_id": hid,	
+                	        "room_name": name,
+                	        "room_price": price,
+                	        "room_image": img
+                	    };
+
+    	                	// 將JSON格式轉換成字串
+                    	var data_string = JSON.stringify(data_object);
+
+                    	// 發出AJAX的PUT請求
+                    	$.ajax({
+                    	        type: "PUT",
+                    	        url: "api/room.do",
+                        	    data: data_string,
+                           		crossDomain: true,
+                            	cache: false,
+                            	dataType: 'json',
+                            	timeout: 5000,
+                            	success: function (response) {
+                                	$('#flashMessage').html(response.message);
+                                	$('#flashMessage').show();
+                                	if(response.status == 200){
+                                	    updateSQLTable(response.response);
+                                	    getRoom();
+                                	}
+                            	},
+                            	error: function () {
+                            	    alert("無法連線到伺服器！");
+                            	}
+                    	});	
+                    }
+                	
+               	}
+            	
+
+            	// 更新SQL指令歷史表格
+            	function updateSQLTable(data) {
+            	    var time = (data.time / 1000000).toFixed(2);
+            	    var table_html = "";
+                
+                	sql_num += 1
+
+                	table_html += '<tr>';
+                	table_html += '<td>' + sql_num + '</td>';
+               		table_html += '<td>' + data.sql + '</td>';
+                	table_html += '<td style="text-align: right">' + '0' + '</td>';
+                	table_html += '<td style="text-align: right">' + data.row + '</td>';
+                	table_html += '<td style="text-align: right">' + data.row + '</td>';
+                	table_html += '<td style="text-align: right">' + time + '</td>';
+                	table_html += '</tr>';
+                	$("#sql_log > tbody").append(table_html);
+                	$("#sql_summary").html("(default) " + data.row + " queries took " + time + " ms");
+            	}
+
+            	// 發出GET的AJAX請求取得原本該房間的資料
+        	 	function getRoom() {
+            	    $.ajax({
+            	        type: "GET",
+                    	url: "api/room.do",
+                    	crossDomain: true,
+                    	data: "room_id=" + id,
+                    	cache: false,
+                    	dataType: 'json',
+                    	timeout: 5000,
+                    	success: function (response) {
+                    	    if(response.status == 200){
+                    	    	updateSQLTable(response.response);
+                    	    	document.getElementById('hotel_id').value = response['response']['data'][0]['hotel_id'];
+                    	    	document.getElementById('room_name').value = response['response']['data'][0]['room_name'];
+                    	    	document.getElementById('room_price').value = response['response']['data'][0]['room_price'];
+                    	    	document.getElementById('room_img').value = response['response']['data'][0]['room_img'];
+                    	    }
+                    	    console.log(response);
+                    	},
+                    	error: function () {
+                    	    alert("無法連線到伺服器！");
+                    	}
+                	});
+            	}
+	
+    	        $('#submit').click(function() {
+        	        updateRoom(id);
+        	    });
+        	    
+            	$(document).ready(function() {
+            		$("#sql_log > tbody").empty();
+            		getRoomHotel();
+            		getRoom();
+            	});
+            </script>
+
+        </div>
+        
+        <div id="footer">
+            <p>SQLTable</p>
+        </div>
+    </div>
+
+    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
+        <caption id="sql_summary">(default) 0 queries took 0 ms</caption>
+        <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Query</th>
+                <th>Error</th>
+                <th>Affected</th>
+                <th>Num. rows</th>
+                <th>Took (ms)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+</body>
+
+</html>

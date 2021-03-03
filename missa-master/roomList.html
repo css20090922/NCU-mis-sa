@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>房間清單</title>
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="icon">
+    <link href="statics/icon/favicon.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" type="text/css" href="statics/css/cake.generic.css">
+
+    <script src="statics/js/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="container">
+    	<div>
+            <h1><a href="index.html">返回首頁</a></h1>
+        </div>
+        <div id="header">
+            <h1>房間清單</h1>
+        </div>
+        <div id="content">
+            <h2>房間資訊</h2>
+            <a href="newRoom.html">新增房間</a>
+            
+            <div id="flashMessage" class="message" style="display: none;"></div>
+
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>編號</th>
+                        <th>店家編號</th>
+                        <th>房間名稱</th>
+                        <th>價格</th>
+                        <th>圖片連結</th>
+                        <th>功能</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <script type="text/javascript">
+                // 全域變數紀錄SQL指令下的次數
+                var sql_num = 0;
+                function deleteRoom(id) {
+                    var check = window.confirm("確認刪除房間？");
+                    if (check == true) {
+                        console.log("You pressed OK!");
+                        var request = {'room_id': id};
+                        var data_string = JSON.stringify(request);
+                        $.ajax({
+                            type: "DELETE",
+                            url: "api/room.do",
+                            crossDomain: true,
+                            data: data_string,
+                            cache: false,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function (response) {
+                                if(response.status == 200){
+                                    $("#flashMessage").html("成功! 已經成功刪除房間...");
+                                    $("#flashMessage").show();
+                                    getAllRoom();
+                                }
+                                console.log(response);
+                            },
+                            error: function () {
+                                alert("無法連線到伺服器！");
+                            }
+                        });
+                    }
+                    else {
+                        console.log("You pressed Cancel!");
+                    }
+                }
+
+                function getAllRoom() {
+                    // 請求取得所有房間列表
+                    $.ajax({
+                            type: "GET",
+                            url: "api/room.do",
+                            crossDomain: true,
+                            cache: false,
+                            dataType: 'json',
+                            timeout: 5000,
+                            success: function (response) {
+                                if(response.status == 200){
+                                    updateTable(response.response.data);
+                                    updateSQLTable(response.response);
+                                }
+                                console.log(response);
+                            },
+                            error: function () {
+                                alert("無法連線到伺服器！");
+                            }
+                    });
+                }
+                
+                // 更新房間列表表格
+                function updateTable(data) {
+                    $("#table > tbody").empty();
+                    var table_html = '';
+                    $.each(data, function(index, value) {
+                    	table_html += '<tr><td scope="row">' + value['room_id'] + '</td>';
+                        table_html += '<td>' + value['hotel_id'] + '</td>';
+                        table_html += '<td>' + value['room_name'] + '</td>';
+                        table_html += '<td>' + value['room_price'] + '</td>';
+                        table_html += '<td>' + value['room_img'] + '</td>';
+                        table_html += '<td>' + '<a href="editRoom.html?id=' + value['room_id'] + '">編輯</a> | ';
+                        table_html += '<a href="javascript: deleteRoom(' + value['room_id'] + ');">刪除</a></td></tr>';
+                    })
+
+                    $("#table > tbody").append(table_html);
+                }
+                
+                // 更新SQL指令歷史表格
+                function updateSQLTable(data) {
+                    $("#sql_log > tbody").empty();
+                    var time = (data.time / 1000000).toFixed(2);
+                    var table_html = "";
+                    
+                    sql_num = 0;
+                    sql_num += 1
+
+                    table_html += '<tr>';
+                    table_html += '<td>' + sql_num + '</td>';
+                    table_html += '<td>' + data.sql + '</td>';
+                    table_html += '<td style="text-align: right">' + '0' + '</td>';
+                    table_html += '<td style="text-align: right">' + data.row + '</td>';
+                    table_html += '<td style="text-align: right">' + data.row + '</td>';
+                    table_html += '<td style="text-align: right">' + time + '</td>';
+                    table_html += '</tr>';
+                    $("#sql_log > tbody").append(table_html);
+                    $("#sql_summary").html("(default) " + data.row + " queries took " + time + " ms");
+                }
+                $(document).ready(function() {
+                    getAllRoom();
+                });
+            </script>
+        </div>
+        <div id="footer">
+            <p>SQLTable</p>
+        </div>
+    </div>
+    <table class="cake-sql-log" id="sql_log" summary="Cake SQL Log" cellspacing="0">
+        <caption id="sql_summary">(default) 0 query took 0 ms</caption>
+        <thead>
+            <tr>
+                <th>Nr</th>
+                <th>Query</th>
+                <th>Error</th>
+                <th>Affected</th>
+                <th>Num. rows</th>
+                <th>Took (ms)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+
+</html>

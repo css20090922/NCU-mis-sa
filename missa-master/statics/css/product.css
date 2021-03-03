@@ -1,0 +1,63 @@
+#product_panel img{
+  object-fit: fill;
+  width: 100%;
+  height: 300px;
+  border-radius: 3px
+}
+
+#product_panel{
+	max-width: 800px;
+}
+
+.product_address{
+	font-size: small;
+}
+
+.product_lowestprice{
+	font-size: x-large;
+    color: #d00d0d;
+    font-weight: bolder;
+    text-align: right;
+}
+
+.product_id{
+	float: right;
+}
+
+.card {
+	min-width: 100% !important;
+}
+
+.jumbotron {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
